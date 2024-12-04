@@ -47,3 +47,24 @@ this will make the built in led blink
 
 [source](https://docs.platformio.org/en/latest/core/quickstart.html)
 
+## Environment Variable
+
+using environment variables, define build flags in platformio.ini,
+then the value is available as global variable in source code
+
+```ini
+build_flags =
+    -D WIFI_SSID='"${sysenv.WIFI_SSID}"'
+    -D WIFI_PASS='"${sysenv.WIFI_PASS}"'
+    -D TCP_SERVER_ADDR='"${sysenv.TCP_SERVER_ADDR}"'
+    -D TCP_SERVER_PORT=${sysenv.TCP_SERVER_PORT}
+```
+
+for this project example following environment variables is required:
+
+- `WIFI_SSID`
+- `WIFI_PASS`
+- `TCP_SERVER_ADDR`
+- `TCP_SERVER_PORT`
+
+
