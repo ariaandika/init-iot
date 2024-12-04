@@ -1,32 +1,41 @@
-/**
- * Blink
- *
- * Turns on an LED on for one second,
- * then off for one second, repeatedly.
- */
 #include "Arduino.h"
+#include "WiFi.h"
+
+// WiFi credentials.
+const char* WIFI_SSID = "ssid";
+const char* WIFI_PASS = "pass";
 
 #ifndef LED_BUILTIN
 #define LED_BUILTIN 13
 #endif
 
-void setup()
-{
-  // initialize LED digital pin as an output.
-  pinMode(LED_BUILTIN, OUTPUT);
+void setup() {
+    Serial.begin(9600);
+
+    // Connect to Wifi.
+    Serial.print("Connecting to ");
+    Serial.println(WIFI_SSID);
+
+    // Set WiFi to station mode and disconnect from an AP if it was previously connected
+    WiFi.mode(WIFI_STA);
+    WiFi.disconnect();
+    delay(100);
+
+    WiFi.begin(WIFI_SSID, WIFI_PASS);
+    Serial.println("Connecting...");
+
+    while (WiFi.status() != WL_CONNECTED) {
+      if (WiFi.status() == WL_CONNECT_FAILED) {
+        Serial.println("Failed to connect to WIFI");
+      }
+      delay(5000);
+    }
+
+    Serial.println("WiFi connected, IP: ");
+    Serial.println(WiFi.localIP());
 }
 
-void loop()
-{
-  // turn the LED on (HIGH is the voltage level)
-  digitalWrite(LED_BUILTIN, HIGH);
-
-  // wait for a second
-  delay(1000);
-
-  // turn the LED off by making the voltage LOW
-  digitalWrite(LED_BUILTIN, LOW);
-
-   // wait for a second
-  delay(1000);
+void loop() {
+  delay(5000);
+  Serial.println("Oof");
 }
