@@ -1,9 +1,7 @@
 #include "Arduino.h"
 #include "WiFi.h"
 
-// WiFi credentials.
-const char* WIFI_SSID = "ssid";
-const char* WIFI_PASS = "pass";
+WiFiClient TCP_client;
 
 #ifndef LED_BUILTIN
 #define LED_BUILTIN 13
@@ -33,6 +31,15 @@ void setup() {
 
     Serial.println("WiFi connected, IP: ");
     Serial.println(WiFi.localIP());
+
+    // connect to TCP server
+    if (TCP_client.connect(TCP_SERVER_ADDR, TCP_SERVER_PORT)) {
+      Serial.println("Connected to TCP server");
+      TCP_client.write("Hello!");  // send to TCP Server
+      TCP_client.flush();
+    } else {
+      Serial.println("Failed to connect to TCP server");
+    }
 }
 
 void loop() {
