@@ -43,6 +43,7 @@ this will make the built in led blink
 
 - building: `pio run`
 - uploading: `pio run --target upload`
+- watch serial monitor: `pio device monitor`
 
 [source](https://docs.platformio.org/en/latest/core/quickstart.html)
 
