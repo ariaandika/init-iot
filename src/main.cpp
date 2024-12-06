@@ -1,11 +1,11 @@
+#include "WebSocketClient.h"
 #include "Arduino.h"
 #include "WiFi.h"
 
-WiFiClient TCP_client;
+using namespace net;
 
-#ifndef LED_BUILTIN
-#define LED_BUILTIN 13
-#endif
+WiFiClient TCP_client;
+WebSocketClient client;
 
 void setup() {
     Serial.begin(9600);
@@ -23,26 +23,38 @@ void setup() {
     Serial.println("Connecting...");
 
     while (WiFi.status() != WL_CONNECTED) {
-      if (WiFi.status() == WL_CONNECT_FAILED) {
-        Serial.println("Failed to connect to WIFI");
-      }
-      delay(5000);
+        if (WiFi.status() == WL_CONNECT_FAILED) {
+            Serial.println("Failed to connect to WIFI");
+        }
+        delay(5000);
     }
 
     Serial.println("WiFi connected, IP: ");
     Serial.println(WiFi.localIP());
 
     // connect to TCP server
-    if (TCP_client.connect(TCP_SERVER_ADDR, TCP_SERVER_PORT)) {
-      Serial.println("Connected to TCP server");
-      TCP_client.write("Hello!");  // send to TCP Server
-      TCP_client.flush();
-    } else {
-      Serial.println("Failed to connect to TCP server");
-    }
+    // if (TCP_client.connect(TCP_SERVER_ADDR, TCP_SERVER_PORT)) {
+    //   Serial.println("Connected to TCP server");
+    //   TCP_client.write("Hello!");  // send to TCP Server
+    //   TCP_client.flush();
+    // } else {
+    //   Serial.println("Failed to connect to TCP server");
+    // }
+
+    client.onOpen([](WebSocket &ws) {
+        const char message[]{ "Yeet" };
+        ws.send(WebSocket::DataType::TEXT, message, strlen(message));
+    });
+
+    client.open(WS_SERVER_ADDR, WS_SERVER_PORT);
 }
 
 void loop() {
-  delay(5000);
-  Serial.println("Oof");
+    Serial.println("Oof");
+    client.listen();
+
+    const char message[]{ "Tick" };
+    client.send(WebSocket::DataType::TEXT, message, strlen(message));
+
+    delay(2000);
 }
