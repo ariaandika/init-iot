@@ -58,6 +58,8 @@ build_flags =
     -D WIFI_PASS='"${sysenv.WIFI_PASS}"'
     -D TCP_SERVER_ADDR='"${sysenv.TCP_SERVER_ADDR}"'
     -D TCP_SERVER_PORT=${sysenv.TCP_SERVER_PORT}
+    -D WS_SERVER_ADDR='"${sysenv.WS_SERVER_ADDR}"'
+    -D WS_SERVER_PORT=${sysenv.WS_SERVER_PORT}
 ```
 
 for this project example following environment variables is required:
@@ -66,5 +68,37 @@ for this project example following environment variables is required:
 - `WIFI_PASS`
 - `TCP_SERVER_ADDR`
 - `TCP_SERVER_PORT`
+- `WS_SERVER_ADDR`
+- `WS_SERVER_PORT`
 
+## Dependency
+
+searching dependency from `pio` cli
+
+```bash
+pio pkg search "WebSocketClient"
+```
+
+declare dependency in `platformio.ini`
+
+```ini
+lib_deps =
+    skaarj1989/mWebSockets @ ^1.5.0
+```
+
+install it using
+
+```bash
+pio pkg install
+```
+
+for this specific example, change the web socket config to use wifi
+
+change the source code directly:
+
+`.pio/libdeps/esp32doit-devkit-v1/mWebSockets/src/config.h:25`:
+
+```cpp
+#define NETWORK_CONTROLLER NETWORK_CONTROLLER_WIFI
+```
 
