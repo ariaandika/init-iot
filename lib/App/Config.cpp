@@ -1,2 +1,4 @@
 #define BUTTON_PIN 13
 #define SERVO_PIN 14
+#define WIFI_AP_NAME "FOO"
+#define WIFI_AP_PASS "BARBARBAR"
