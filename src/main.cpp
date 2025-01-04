@@ -6,13 +6,18 @@
 
 #include "Arduino.h"
 #include "ButtonIo.cpp"
+#include "ServoIo.cpp"
 
 void setup() {
     // button_setup();
+    // servo_setup();
 }
 
 void loop() {
     // button_loop();
     // button_debug();
+    // servo_debug();
+
+    delay(500);
 }
 
